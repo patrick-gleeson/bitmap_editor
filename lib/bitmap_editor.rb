@@ -1,8 +1,10 @@
 require_relative 'bitmap_editor/output_writer'
+require_relative 'bitmap_editor/input_reader'
 
 class BitmapEditor
   def initialize
     @writer = OutputWriter.new
+    @reader = InputReader.new
   end
 
   def run
@@ -10,7 +12,7 @@ class BitmapEditor
     @writer.write_line 'type ? for help'
     while @running
       @writer.write '> '
-      input = $stdin.gets.chomp
+      input = @reader.read_line
       case input
       when '?'
         show_help
