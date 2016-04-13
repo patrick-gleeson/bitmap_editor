@@ -29,7 +29,8 @@ class BitmapEditor
     'S' => :print_map,
     'L' => :edit_pixel,
     'V' => :edit_column,
-    'H' => :edit_row
+    'H' => :edit_row,
+    'C' => :clear_map
   }.freeze
 
   def action_input(input_args)
@@ -77,5 +78,9 @@ class BitmapEditor
     @manager.edit_row(*args)
   rescue ArgumentError
     @writer.write_line OutputStrings::INVALID
+  end
+
+  def clear_map(_args)
+    @manager.clear_map
   end
 end

@@ -78,4 +78,13 @@ RSpec.describe MapManager do
       expect { subject.edit_column(1, 4, 1, 'A') }.to raise_error(ArgumentError)
     end
   end
+
+  describe '#clear_map' do
+    it 'sets all pixels to O' do
+      subject.create_map(3, 3)
+      subject.edit_column(2, 2, 3, 'A')
+      subject.clear_map
+      expect { |b| subject.each_row_as_string(&b) }.to yield_successive_args('OOO', 'OOO', 'OOO')
+    end
+  end
 end

@@ -59,6 +59,11 @@ class MapManager
     end
   end
 
+  def clear_map
+    return unless @map
+    create_map(@map.transpose.length, @map.length)
+  end
+
   private
 
   def verify_1_indexed_coordinates(x: nil, y: nil)

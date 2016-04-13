@@ -108,5 +108,11 @@ RSpec.describe BitmapEditor do
       expect(manager).to receive(:edit_column).and_raise(ArgumentError)
       subject.run
     end
+
+    it 'passes clear commands on to manager' do
+      expect(reader).to receive(:read_line).and_return(['C'], ['X'])
+      expect(manager).to receive(:clear_map)
+      subject.run
+    end
   end
 end

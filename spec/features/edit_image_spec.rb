@@ -47,4 +47,20 @@ RSpec.describe 'Feature: Edit image' do
 
     BitmapEditor.new.run
   end
+
+  it 'lets me clear the map' do
+    expect(STDIN).to receive(:gets).and_return 'I 5 6', 'V 2 3 6 W', 'C', 'S', 'X'
+
+    expect_grid_output(%w(
+                         OOOOO
+                         OOOOO
+                         OOOOO
+                         OOOOO
+                         OOOOO
+                         OOOOO))
+
+    expect(STDOUT).to receive(:puts).with('goodbye!').ordered
+
+    BitmapEditor.new.run
+  end
 end
