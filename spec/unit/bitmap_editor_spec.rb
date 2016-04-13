@@ -50,7 +50,7 @@ RSpec.describe BitmapEditor do
       subject.run
     end
 
-    it 'rescues errors and tells user' do
+    it 'rescues build errors and tells user' do
       expect(writer).to receive(:write_line).with(OutputStrings::INITIAL_PROMPT).ordered
       expect(writer).to receive(:write_line).with(OutputStrings::INVALID).ordered
       expect(reader).to receive(:read_line).and_return(%w(I 5 6), ['X'])
@@ -64,6 +64,20 @@ RSpec.describe BitmapEditor do
       expect(writer).to receive(:write_line).with('def').ordered
       expect(reader).to receive(:read_line).and_return(['S'], ['X'])
       expect(manager).to receive(:each_row_as_string).and_yield('abc').and_yield('def')
+      subject.run
+    end
+
+    it 'passes on edit pixel messages' do
+      expect(reader).to receive(:read_line).and_return(%w(L 2 3 A), ['X'])
+      expect(manager).to receive(:edit_pixel).with('2', '3', 'A')
+      subject.run
+    end
+
+    it 'rescues edit errors and tells user' do
+      expect(writer).to receive(:write_line).with(OutputStrings::INITIAL_PROMPT).ordered
+      expect(writer).to receive(:write_line).with(OutputStrings::INVALID).ordered
+      expect(reader).to receive(:read_line).and_return(%w(L 2 3 A), ['X'])
+      expect(manager).to receive(:edit_pixel).and_raise(ArgumentError)
       subject.run
     end
   end

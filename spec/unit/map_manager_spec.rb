@@ -24,4 +24,22 @@ RSpec.describe MapManager do
       expect { |b| subject.each_row_as_string(&b) }.to yield_successive_args('OO', 'OO', 'OO')
     end
   end
+
+  describe '#edit_pixel' do
+    it 'changes a specified pixel to a colour' do
+      subject.create_map(2, 3)
+      subject.edit_pixel(1, 1, 'A')
+      expect { |b| subject.each_row_as_string(&b) }.to yield_successive_args('AO', 'OO', 'OO')
+    end
+
+    it 'rejects invalid colours' do
+      subject.create_map(2, 3)
+      expect { subject.edit_pixel(1, 1, '!') }.to raise_error(ArgumentError)
+    end
+
+    it 'rejects invalid coords' do
+      subject.create_map(2, 3)
+      expect { subject.edit_pixel(0, 1, 'A') }.to raise_error(ArgumentError)
+    end
+  end
 end

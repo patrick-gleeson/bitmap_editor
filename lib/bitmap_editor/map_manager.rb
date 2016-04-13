@@ -16,4 +16,23 @@ class MapManager
       yield row.join
     end
   end
+
+  def edit_pixel(x_coord, y_coord, colour)
+    return unless @map
+    raise ArgumentError unless /\A[A-Z]\z/ =~ colour
+
+    x_int = Integer(x_coord)
+    y_int = Integer(y_coord)
+
+    verify_1_indexed_coordinates(x_int, y_int)
+
+    @map[y_int - 1][x_int - 1] = colour
+  end
+
+  private
+
+  def verify_1_indexed_coordinates(x, y)
+    raise ArgumentError unless x >= 1 && x <= @map.transpose.length
+    raise ArgumentError unless y >= 1 && y <= @map.length
+  end
 end

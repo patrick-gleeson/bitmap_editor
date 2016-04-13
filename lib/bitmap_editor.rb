@@ -26,7 +26,8 @@ class BitmapEditor
     '?' => :show_help,
     'X' => :exit_console,
     'I' => :create_map,
-    'S' => :print_map
+    'S' => :print_map,
+    'L' => :edit_pixel
   }.freeze
 
   def action_input(input_args)
@@ -56,5 +57,11 @@ class BitmapEditor
     @manager.each_row_as_string do |row_string|
       @writer.write_line row_string
     end
+  end
+
+  def edit_pixel(args)
+    @manager.edit_pixel(*args)
+  rescue ArgumentError
+    @writer.write_line OutputStrings::INVALID
   end
 end
