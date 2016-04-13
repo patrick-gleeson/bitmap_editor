@@ -1,11 +1,13 @@
 require_relative 'bitmap_editor/output_writer'
 require_relative 'bitmap_editor/input_reader'
 require_relative 'bitmap_editor/output_strings'
+require_relative 'bitmap_editor/map_manager'
 
 class BitmapEditor
   def initialize
     @writer = OutputWriter.new
     @reader = InputReader.new
+    @manager = MapManager.new
   end
 
   def run
@@ -22,7 +24,9 @@ class BitmapEditor
 
   COMMAND_MAP = {
     '?' => :show_help,
-    'X' => :exit_console
+    'X' => :exit_console,
+    'I' => :create_map,
+    'S' => :print_map
   }.freeze
 
   def action_input(input_args)
@@ -40,5 +44,17 @@ class BitmapEditor
 
   def show_help(_args)
     @writer.write_line OutputStrings::HELP
+  end
+
+  def create_map(args)
+    @manager.create_map(*args)
+  rescue ArgumentError
+    @writer.write_line OutputStrings::INVALID
+  end
+
+  def print_map(_args)
+    @manager.each_row_as_string do |row_string|
+      @writer.write_line row_string
+    end
   end
 end
