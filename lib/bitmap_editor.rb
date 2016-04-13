@@ -14,25 +14,31 @@ class BitmapEditor
     while @running
       @writer.write OutputStrings::INPUT_PROMPT
       input_args = @reader.read_line
-      case input_args[0]
-      when '?'
-        show_help
-      when 'X'
-        exit_console
-      else
-        @writer.write_line OutputStrings::UNRECOGNISED
-      end
+      action_input input_args
     end
   end
 
   private
 
-  def exit_console
+  COMMAND_MAP = {
+    '?' => :show_help,
+    'X' => :exit_console
+  }.freeze
+
+  def action_input(input_args)
+    if (command = COMMAND_MAP[input_args[0]])
+      send(command, input_args.drop(1))
+    else
+      @writer.write_line OutputStrings::UNRECOGNISED
+    end
+  end
+
+  def exit_console(_args)
     @writer.write_line OutputStrings::EXIT
     @running = false
   end
 
-  def show_help
+  def show_help(_args)
     @writer.write_line OutputStrings::HELP
   end
 end

@@ -19,8 +19,8 @@ RSpec.describe InputReader do
     end
 
     it 'splits on spaces' do
-      expect(input).to receive(:gets).and_return(content + " other")
-      expect(subject.read_line).to eq [content, "other"]
+      expect(input).to receive(:gets).and_return(content + ' other')
+      expect(subject.read_line).to eq [content, 'other']
     end
   end
 end
