@@ -1,9 +1,15 @@
+require_relative 'bitmap_editor/output_writer'
+
 class BitmapEditor
+  def initialize
+    @writer = OutputWriter.new
+  end
+
   def run
     @running = true
-    $stdout.puts 'type ? for help'
+    @writer.write_line 'type ? for help'
     while @running
-      $stdout.print '> '
+      @writer.write '> '
       input = $stdin.gets.chomp
       case input
       when '?'
@@ -11,7 +17,7 @@ class BitmapEditor
       when 'X'
         exit_console
       else
-        $stdout.puts 'unrecognised command :('
+        @writer.write_line 'unrecognised command :('
       end
     end
   end
@@ -19,12 +25,12 @@ class BitmapEditor
   private
 
   def exit_console
-    $stdout.puts 'goodbye!'
+    @writer.write_line 'goodbye!'
     @running = false
   end
 
   def show_help
-    $stdout.puts "? - Help
+    @writer.write_line "? - Help
 I M N - Create a new M x N image with all pixels coloured white (O).
 C - Clears the table, setting all pixels to white (O).
 L X Y C - Colours the pixel (X,Y) with colour C.
