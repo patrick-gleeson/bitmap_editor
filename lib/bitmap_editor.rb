@@ -1,5 +1,6 @@
 require_relative 'bitmap_editor/output_writer'
 require_relative 'bitmap_editor/input_reader'
+require_relative 'bitmap_editor/output_strings'
 
 class BitmapEditor
   def initialize
@@ -9,9 +10,9 @@ class BitmapEditor
 
   def run
     @running = true
-    @writer.write_line 'type ? for help'
+    @writer.write_line OutputStrings::INITIAL_PROMPT
     while @running
-      @writer.write '> '
+      @writer.write OutputStrings::INPUT_PROMPT
       input = @reader.read_line
       case input
       when '?'
@@ -19,7 +20,7 @@ class BitmapEditor
       when 'X'
         exit_console
       else
-        @writer.write_line 'unrecognised command :('
+        @writer.write_line OutputStrings::UNRECOGNISED
       end
     end
   end
@@ -27,18 +28,11 @@ class BitmapEditor
   private
 
   def exit_console
-    @writer.write_line 'goodbye!'
+    @writer.write_line OutputStrings::EXIT
     @running = false
   end
 
   def show_help
-    @writer.write_line "? - Help
-I M N - Create a new M x N image with all pixels coloured white (O).
-C - Clears the table, setting all pixels to white (O).
-L X Y C - Colours the pixel (X,Y) with colour C.
-V X Y1 Y2 C - Draw a vertical segment of colour C in column X between rows Y1 and Y2 (inclusive).
-H X1 X2 Y C - Draw a horizontal segment of colour C in row Y between columns X1 and X2 (inclusive).
-S - Show the contents of the current image
-X - Terminate the session"
+    @writer.write_line OutputStrings::HELP
   end
 end
