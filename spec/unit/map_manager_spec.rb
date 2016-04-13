@@ -42,4 +42,40 @@ RSpec.describe MapManager do
       expect { subject.edit_pixel(0, 1, 'A') }.to raise_error(ArgumentError)
     end
   end
+
+  describe '#edit_row' do
+    it 'changes a specified range of pixels to a colour' do
+      subject.create_map(3, 3)
+      subject.edit_row(2, 3, 2, 'A')
+      expect { |b| subject.each_row_as_string(&b) }.to yield_successive_args('OOO', 'OAA', 'OOO')
+    end
+
+    it 'rejects invalid colours' do
+      subject.create_map(2, 3)
+      expect { subject.edit_row(1, 1, 1, '!') }.to raise_error(ArgumentError)
+    end
+
+    it 'rejects invalid coords' do
+      subject.create_map(3, 3)
+      expect { subject.edit_row(1, 4, 1, 'A') }.to raise_error(ArgumentError)
+    end
+  end
+
+  describe '#edit_column' do
+    it 'changes a specified range of pixels to a colour' do
+      subject.create_map(3, 3)
+      subject.edit_column(2, 2, 3, 'A')
+      expect { |b| subject.each_row_as_string(&b) }.to yield_successive_args('OOO', 'OAO', 'OAO')
+    end
+
+    it 'rejects invalid colours' do
+      subject.create_map(2, 3)
+      expect { subject.edit_column(1, 1, 1, '!') }.to raise_error(ArgumentError)
+    end
+
+    it 'rejects invalid coords' do
+      subject.create_map(3, 3)
+      expect { subject.edit_column(1, 4, 1, 'A') }.to raise_error(ArgumentError)
+    end
+  end
 end

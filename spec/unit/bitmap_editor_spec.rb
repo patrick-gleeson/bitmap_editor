@@ -80,5 +80,33 @@ RSpec.describe BitmapEditor do
       expect(manager).to receive(:edit_pixel).and_raise(ArgumentError)
       subject.run
     end
+
+    it 'passes on horiz messages' do
+      expect(reader).to receive(:read_line).and_return(%w(H 2 3 4 A), ['X'])
+      expect(manager).to receive(:edit_row).with('2', '3', '4', 'A')
+      subject.run
+    end
+
+    it 'rescues horiz errors and tells user' do
+      expect(writer).to receive(:write_line).with(OutputStrings::INITIAL_PROMPT).ordered
+      expect(writer).to receive(:write_line).with(OutputStrings::INVALID).ordered
+      expect(reader).to receive(:read_line).and_return(%w(H 2 3 A), ['X'])
+      expect(manager).to receive(:edit_row).and_raise(ArgumentError)
+      subject.run
+    end
+
+    it 'passes on vert messages' do
+      expect(reader).to receive(:read_line).and_return(%w(V 2 3 4 A), ['X'])
+      expect(manager).to receive(:edit_column).with('2', '3', '4', 'A')
+      subject.run
+    end
+
+    it 'rescues vert errors and tells user' do
+      expect(writer).to receive(:write_line).with(OutputStrings::INITIAL_PROMPT).ordered
+      expect(writer).to receive(:write_line).with(OutputStrings::INVALID).ordered
+      expect(reader).to receive(:read_line).and_return(%w(V 2 3 A), ['X'])
+      expect(manager).to receive(:edit_column).and_raise(ArgumentError)
+      subject.run
+    end
   end
 end
