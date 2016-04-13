@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'Need help' do
+RSpec.describe 'Feature: Need help' do
   before { stub_nonfunctional_output }
 
   it 'shows me help if I ask for it' do

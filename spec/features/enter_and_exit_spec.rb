@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'Enter and exit the program' do
+RSpec.describe 'Feature: Enter and exit the program' do
   before { stub_nonfunctional_output }
 
   it 'lets me exit straight away' do
