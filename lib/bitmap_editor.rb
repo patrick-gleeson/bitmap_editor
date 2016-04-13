@@ -13,8 +13,8 @@ class BitmapEditor
     @writer.write_line OutputStrings::INITIAL_PROMPT
     while @running
       @writer.write OutputStrings::INPUT_PROMPT
-      input = @reader.read_line
-      case input
+      input_args = @reader.read_line
+      case input_args[0]
       when '?'
         show_help
       when 'X'

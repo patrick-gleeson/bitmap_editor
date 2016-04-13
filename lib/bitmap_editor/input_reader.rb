@@ -4,6 +4,6 @@ class InputReader
   end
 
   def read_line
-    @input.gets.chomp
+    @input.gets.chomp.split
   end
 end
